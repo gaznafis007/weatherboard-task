@@ -4,7 +4,7 @@ import { useState } from "react"
 import { FaSearch, FaPlus } from "react-icons/fa"
 
 // API key - in a real app, this should be an environment variable
-const API_KEY = "4a8c923d1f3d4f91a991e0b4a6e0e8d0"
+// const API_KEY = "4a8c923d1f3d4f91a991e0b4a6e0e8d0"
 
 export default function CitySearch({ addCity }) {
   const [searchTerm, setSearchTerm] = useState("")
@@ -33,7 +33,7 @@ export default function CitySearch({ addCity }) {
     try {
       // First, get the coordinates for the city
       const geoResponse = await fetch(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=1&appid=${API_KEY}`,
+        `https://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=1&appid=${process.env.NEXT_PUBLIC_API_KEY}`,
       )
 
       if (!geoResponse.ok) {
@@ -52,7 +52,7 @@ export default function CitySearch({ addCity }) {
 
       // Then, get the weather data using the coordinates
       const weatherResponse = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`,
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_API_KEY}&units=metric`,
       )
 
       if (!weatherResponse.ok) {
@@ -100,7 +100,7 @@ export default function CitySearch({ addCity }) {
           <div className="relative flex-grow">
             <input
               type="text"
-              className="w-full px-4 py-3 pl-10 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 pl-10 rounded-l-lg border border-gray-300 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter city name (e.g., London, New York)"
               value={searchTerm}
               onChange={handleSearchChange}
